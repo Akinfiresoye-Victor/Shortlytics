@@ -1,0 +1,7 @@
+# RubberDuck indexer config (contains auth token)
+.rubberduck/
+url/
+.cursor/
+.vscode/
+db.sqlite3
+index_out.txt

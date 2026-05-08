@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container my-4">
+    <h1 class="text-center fw-bold">Short.ly</h1>
+
+    <!-- URL Input Form -->
+    <div class="card shadow-sm p-4 mb-4">
+        <form action="" method="POST" class="text-center">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.long_link }}
+            </div>
+            <div class="mb-3">
+                {{ form.link_to }}
+            </div>
+            <button type="submit" class="btn btn-outline-primary">Shorten</button>
+        </form>
+    </div>
+
+    <!-- Saved Links -->
+    <h3 class="mb-3">My Shortened Links</h3>
+    {% if links %}
+        <div class="list-group">
+            {% for link in links %}
+                <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="mb-1"><strong>Long Link:</strong> {{ link.long_link }}</p>
+                        <p class="mb-1">
+                            <strong>Short Link:</strong> 
+                            <a href="{% url 'go_to_link' link.uuid %}" target="_blank" class="text-decoration-none">
+                                {{ link.short_link }}
+                            </a>
+                        </p>
+                        <p class="mb-1"><strong>Destination:</strong> {{ link.link_to }}</p>
+                    </div>
+                    <div>
+                        <a href="{% url 'graph' link.uuid%}" class="btn btn-outline-success btn">Generate graph</a>
+                        <a href="{% url 'delete-link' link.id %}" class="btn btn-outline-danger btn-sm">
+                            Delete
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">No links have been shortened yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
